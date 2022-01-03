@@ -1,6 +1,6 @@
 # Coffee Player
 
-<img src="./public/pictures/wlogo.png" width="150">
+<img src="./src/assets/logo/classic.jpeg" width="150">
 
 This project was created with:
 
