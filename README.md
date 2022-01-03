@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Coffee Player
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="./public/pictures/wlogo.png" width="150">
+
+This project was created with:
+
+- [Create React App](https://github.com/facebook/create-react-app)
+- [Material UI](https://mui.com/)
 
 ## Available Scripts
 
