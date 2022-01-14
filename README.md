@@ -2,9 +2,10 @@
 
 <img src="./src/assets/logo/classic.jpeg" width="150">
 
-This project was created with:
+This project created with:
 
 - [Create React App](https://github.com/facebook/create-react-app)
+- [React Router](https://reactrouter.com/)
 - [Material UI](https://mui.com/)
 
 ## Available Scripts

@@ -1,17 +1,18 @@
-import * as React from "react"
-import "./App.css"
-// import logo from "./assets/logo/white.png"
-import Button from "@mui/material/Button"
+import { Routes, Route } from "react-router-dom"
+import LoginView from "./routes/Login/LoginView"
+import MainView from "./routes/Main/MainView"
 
-const logo = require("./assets/logo/white.png")
+const code = new URLSearchParams(window.location.search).get("code")
 
 const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} width="512" height="512" alt="logo" />
-        <Button variant="contained">Login in with Spotify</Button>
-      </header>
+      <Routes>
+        <Route
+          path="/"
+          element={code ? <MainView code={code} /> : <LoginView />}
+        />
+      </Routes>
     </div>
   )
 }
