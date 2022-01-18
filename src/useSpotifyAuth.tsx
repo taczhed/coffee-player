@@ -1,11 +1,13 @@
-import { WindowSharp } from "@mui/icons-material"
 import axios from "axios"
-import React, { useState, useEffect } from "react"
+import { useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 
 export default function useSpotifyAuth(code: string | null) {
   const [accessToken, setAccessToken] = useState<string | null>(code)
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
   const [expiresIn, setExpiresIn] = useState<number | undefined>()
+
+  const history = useHistory()
 
   useEffect(() => {
     axios
@@ -15,12 +17,12 @@ export default function useSpotifyAuth(code: string | null) {
         setAccessToken(res.data.accessToken)
         setRefreshToken(res.data.refreshToken)
         setExpiresIn(res.data.expiresIn)
-        window.history.pushState({}, "", "/")
+        history.push("/")
       })
       .catch(() => {
-        window.location.assign("/")
+        history.push("/")
       })
-  }, [code])
+  }, [code, history])
 
   useEffect(() => {
     if (!refreshToken || !expiresIn) return
@@ -32,12 +34,12 @@ export default function useSpotifyAuth(code: string | null) {
           setExpiresIn(res.data.expiresIn)
         })
         .catch(() => {
-          window.location.assign("/")
+          history.push("/")
         })
     }, (expiresIn - 60) * 1000)
 
     return () => clearInterval(interval)
-  }, [refreshToken, expiresIn])
+  }, [refreshToken, expiresIn, history])
 
   return accessToken
 }

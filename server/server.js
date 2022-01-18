@@ -30,7 +30,7 @@ app.post("/login", async (req, res) => {
       })
     })
     .catch((error) => {
-      console.log(error)
+      console.log(`Login error: ${error}`)
       res.sendStatus(400)
     })
 })
@@ -52,7 +52,7 @@ app.post("/refresh", (req, res) => {
         expiresIn: data.body.expires_in,
       })
     },
-    (error) => console.log(error),
+    (error) => console.log(`Refresh error: ${error}`),
   )
 })
 

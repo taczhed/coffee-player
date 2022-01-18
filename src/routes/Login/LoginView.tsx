@@ -36,12 +36,17 @@ const LoginView = () => {
         <img src={logo} width="280" height="280" alt="coffee-player-logo" />
         <Link
           sx={{
+            fontFamily: "'Barlow', sans-serif",
+            letterSpacing: 0.5,
             backgroundColor: "rgba(255, 255, 255, 0.2)",
             color: "#ffffff",
             border: "2px solid transparent",
             fontWeight: 700,
             p: 2,
             borderRadius: 2,
+            verticalAlign: "center",
+            justifyContent: "center",
+            transition: "0.2s",
             "&:hover": {
               backgroundColor: "transparent",
               color: "#ffffff",
@@ -51,7 +56,6 @@ const LoginView = () => {
           href={AUTH_URL}
         >
           Connect with Spotify
-          <CompareArrowsIcon fontSize="large" sx={{ ml: 1 }} />
         </Link>
       </Box>
     </Box>

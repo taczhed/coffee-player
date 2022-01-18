@@ -1,5 +1,8 @@
-import Box from "@mui/material/Box"
+import { Grid, Box, Container } from "@mui/material"
 import useSpotifyAuth from "../../useSpotifyAuth"
+import Application from "./Application/Application"
+import Navigation from "./Navigation/Navigation"
+// import { useTheme } from "@mui/material/styles"
 const background = require("../../assets/background/gradient1.jpeg")
 
 interface MainViewProps {
@@ -8,11 +11,11 @@ interface MainViewProps {
 
 const MainView = ({ code }: MainViewProps) => {
   const accessToken = useSpotifyAuth(code)
+  // const theme = useTheme()
 
   return (
     <Box
       sx={{
-        // backgroundColor: "#262626",
         backgroundImage: `url(${background})`,
         width: "100%",
         height: "100vh",
@@ -21,20 +24,27 @@ const MainView = ({ code }: MainViewProps) => {
         justifyContent: "center",
       }}
     >
-      <Box
+      <Grid
         sx={{
-          background: `rgba(255,255,255,0.2)`,
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
-          flexDirection: "column",
-          px: 4,
-          py: 6,
-          borderRadius: 12,
+          flexDirection: "row",
+          overflow: "hidden",
+          height: "100%",
+          width: "100%",
+          borderRadius: 0,
+          // md and more do bottom
+          //md={10}
+          // [theme.breakpoints.up("md")]: {
+          //   height: "80%",
+          //   borderRadius: 12,
+          //   background: `rgba(255,255,255,0.15)`,
+          // },
         }}
       >
-        {code}
-      </Box>
+        <Navigation />
+        <Application />
+      </Grid>
     </Box>
   )
 }
