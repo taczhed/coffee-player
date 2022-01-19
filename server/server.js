@@ -8,7 +8,7 @@ const port = 8080
 app.use(cors())
 app.use(bodyParser.json())
 
-const auth = require("./auth.json")
+const auth = require("../src/auth.json")
 
 app.post("/login", async (req, res) => {
   console.log("Login in!")

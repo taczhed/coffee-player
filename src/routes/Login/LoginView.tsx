@@ -23,7 +23,7 @@ const LoginView = () => {
     >
       <Box
         sx={{
-          background: `rgba(255,255,255,0.2)`,
+          background: `rgba(255,255,255,0.15)`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -36,12 +36,13 @@ const LoginView = () => {
         <img src={logo} width="280" height="280" alt="coffee-player-logo" />
         <Link
           sx={{
-            fontFamily: "'Barlow', sans-serif",
-            letterSpacing: 0.5,
-            backgroundColor: "rgba(255, 255, 255, 0.2)",
+            fontFamily: "Barlow, sans-serif",
+            fontWeight: 500,
+            textTransform: "uppercase",
+            fontSize: 12,
+            backgroundColor: "rgba(255, 255, 255, 0.15)",
             color: "#ffffff",
             border: "2px solid transparent",
-            fontWeight: 700,
             p: 2,
             borderRadius: 2,
             verticalAlign: "center",
@@ -51,6 +52,7 @@ const LoginView = () => {
               backgroundColor: "transparent",
               color: "#ffffff",
               border: "2px solid #ffffff",
+              textDecoration: "none",
             },
           }}
           href={AUTH_URL}

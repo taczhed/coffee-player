@@ -5,12 +5,7 @@ import Navigation from "./Navigation/Navigation"
 // import { useTheme } from "@mui/material/styles"
 const background = require("../../assets/background/gradient1.jpeg")
 
-interface MainViewProps {
-  code: string | null
-}
-
-const MainView = ({ code }: MainViewProps) => {
-  const accessToken = useSpotifyAuth(code)
+const MainView = () => {
   // const theme = useTheme()
 
   return (

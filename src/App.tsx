@@ -4,15 +4,14 @@ import MainView from "./routes/Main/MainView"
 
 const code = new URLSearchParams(window.location.search).get("code")
 
+// app works992px and more
+
 const App = () => {
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route
-            path="/"
-            children={code ? <MainView code={code} /> : <LoginView />}
-          />
+          <Route path="/" children={code ? <MainView /> : <LoginView />} />
         </Switch>
       </Router>
     </div>

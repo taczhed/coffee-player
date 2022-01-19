@@ -8,7 +8,7 @@ import GroupIcon from "@mui/icons-material/Group"
 
 const Navigation = () => {
   const navigationItems = [
-    { name: "Example", url: "favourites", icon: <FavoriteIcon /> },
+    { name: "Favourites", url: "favourites", icon: <FavoriteIcon /> },
     { name: "Albums", url: "albums", icon: <AlbumIcon /> },
     { name: "Artists", url: "artists", icon: <GroupIcon /> },
   ]
@@ -19,7 +19,7 @@ const Navigation = () => {
         height: "100%",
         py: 1,
         background: "rgba(255,255,255,0.15)",
-        borderRight: "2px solid rgba(255,255,255,0.15)",
+        borderRight: "1px solid rgba(255,255,255,0.15)",
       }}
     >
       <Logo />
