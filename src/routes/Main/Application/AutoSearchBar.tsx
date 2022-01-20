@@ -1,15 +1,9 @@
-import { InputBase, Button, Box, Stack, Typography } from "@mui/material"
+import { InputBase, Button, Box, Stack } from "@mui/material"
 import React, { useState, useEffect } from "react"
 import SearchIcon from "@mui/icons-material/Search"
 import SpotifyWebApi from "spotify-web-api-node"
-import useSpotifyAuth from "../../../useSpotifyAuth"
 import { reduceTracks, smashArtists } from "../../../utilities/searchFunctions"
 import AutoSearchBarItem from "./AutoSearchBarItem"
-const auth = require("../../../auth.json")
-
-const SpotifyApi = new SpotifyWebApi({
-  clientId: auth.clientId,
-})
 
 interface Track {
   artists: string[]
@@ -18,17 +12,22 @@ interface Track {
   albumUrl: string
 }
 
-const AutoSearchBar = () => {
-  const code = new URLSearchParams(window.location.search).get("code")
-  const accessToken = useSpotifyAuth(code)
+interface AutoSearchBarProps {
+  accessToken: string | null
+  SpotifyApi: SpotifyWebApi
+  setCurrentSong: React.Dispatch<React.SetStateAction<string | undefined>>
+}
+
+const AutoSearchBar = ({
+  accessToken,
+  SpotifyApi,
+  setCurrentSong,
+}: AutoSearchBarProps) => {
   const [searchText, setSearchText] = useState("")
   const [searchResults, setSearchResults] = useState<Array<Track>>([])
+  const [areSearchResultsFocused, setAreSearchResultsFocused] = useState(false)
 
-  useEffect(() => {
-    if (!accessToken) return
-    SpotifyApi.setAccessToken(accessToken)
-  }, [accessToken])
-
+  //typing into searchbar mechanism
   useEffect(() => {
     if (searchText === "") return setSearchResults([])
     if (!accessToken) return
@@ -40,7 +39,7 @@ const AutoSearchBar = () => {
       if (searchText === "") return setSearchResults([])
       else setSearchResults(tracks ? tracks.slice(0, 5) : [])
     })
-  }, [searchText, accessToken])
+  }, [searchText, accessToken, SpotifyApi])
 
   return (
     <Box
@@ -76,6 +75,7 @@ const AutoSearchBar = () => {
         <InputBase
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
+          onClick={() => setAreSearchResultsFocused(true)}
           placeholder="Search..."
           sx={{
             color: "white",
@@ -85,8 +85,11 @@ const AutoSearchBar = () => {
             px: 1,
           }}
         />
-        {searchResults.length > 0 ? (
+        {areSearchResultsFocused && searchResults.length > 0 ? (
           <Stack
+            onClick={() =>
+              setTimeout(() => setAreSearchResultsFocused(false), 100)
+            }
             sx={{
               left: 0,
               top: 48,
@@ -100,8 +103,10 @@ const AutoSearchBar = () => {
               <AutoSearchBarItem
                 key={index}
                 title={result.title}
+                uri={result.uri}
                 artists={smashArtists(result.artists)}
                 imgSrc={result.albumUrl}
+                setCurrentSong={setCurrentSong}
               />
             ))}
           </Stack>

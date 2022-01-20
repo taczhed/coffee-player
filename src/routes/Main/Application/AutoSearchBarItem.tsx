@@ -3,14 +3,18 @@ import React from "react"
 
 interface AutoSearchBarItemProps {
   title: string
+  uri: string
   artists: string
   imgSrc?: string
+  setCurrentSong: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
 const AutoSearchBarItem = ({
   title,
+  uri,
   artists,
   imgSrc,
+  setCurrentSong,
 }: AutoSearchBarItemProps) => {
   return (
     <Button
@@ -23,6 +27,7 @@ const AutoSearchBarItem = ({
         justifyContent: "flex-start",
         borderRadius: 0,
       }}
+      onClick={() => setCurrentSong(uri)}
     >
       <img src={imgSrc} alt={title} />
       <Box
