@@ -56,11 +56,17 @@ export default function useSpotifyPlayer(accessToken: string | undefined) {
     )
   }
 
+  const getCurrentPosition = () => {
+    if (!playerState) return
+    return playerState.position
+  }
+
   return {
     deviceId,
     player,
     playerState,
     currentTrack,
     playSong,
+    getCurrentPosition,
   }
 }
