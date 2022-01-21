@@ -26,3 +26,12 @@ export const smashArtists = (artistsArray: Array<string>) => {
   artistsArray.map((artist) => (artistsString += `${artist}, `))
   return artistsString.slice(0, -2)
 }
+
+export const playerArtists = (
+  artistsArray: Array<{ name: string; uri: string }> | undefined,
+) => {
+  if (!artistsArray) return null
+  let artistsString = ""
+  artistsArray.map((artist) => (artistsString += `${artist.name}, `))
+  return artistsString.slice(0, -2)
+}

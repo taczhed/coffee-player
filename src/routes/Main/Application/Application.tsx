@@ -13,21 +13,31 @@ const SpotifyApi = new SpotifyWebApi({
 
 const Application = () => {
   const [currentSong, setCurrentSong] = useState<string | undefined>(undefined)
-  const accessToken = useSpotifyAuth(code)
+  const accessToken = useSpotifyAuth(code ? code : undefined)
 
   useEffect(() => {
     if (!accessToken) return
     SpotifyApi.setAccessToken(accessToken)
   }, [accessToken])
 
+  const renderApplication = () => {
+    if (accessToken) {
+      return (
+        <>
+          <AutoSearchBar
+            accessToken={accessToken}
+            SpotifyApi={SpotifyApi}
+            setCurrentSong={setCurrentSong}
+          />
+          <Player accessToken={accessToken} currentSong={currentSong} />
+        </>
+      )
+    } else return null
+  }
+
   return (
     <Box sx={{ width: "100%", height: "100%", position: "relative" }}>
-      <AutoSearchBar
-        accessToken={accessToken}
-        SpotifyApi={SpotifyApi}
-        setCurrentSong={setCurrentSong}
-      />
-      <Player accessToken={accessToken} currentSong={currentSong} />
+      {renderApplication()}
     </Box>
   )
 }

@@ -13,7 +13,7 @@ interface Track {
 }
 
 interface AutoSearchBarProps {
-  accessToken: string | null
+  accessToken: string | undefined
   SpotifyApi: SpotifyWebApi
   setCurrentSong: React.Dispatch<React.SetStateAction<string | undefined>>
 }
