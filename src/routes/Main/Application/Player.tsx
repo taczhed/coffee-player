@@ -13,22 +13,19 @@ interface PlayerProps {
 }
 
 const Player = ({ accessToken, currentSong }: PlayerProps) => {
+  const [isResume, setIsResume] = useState(true)
   const [isPaused, setIsPaused] = useState(true)
-  const {
-    deviceId,
-    player,
-    playerState,
-    currentTrack,
-    playSong,
-    getCurrentPosition,
-  } = useSpotifyPlayer(accessToken)
+  const { deviceId, player, playerState, currentTrack, playSong } =
+    useSpotifyPlayer(accessToken)
 
   useEffect(() => {
     playSong([currentSong ? currentSong : "invalid_song"])
     setIsPaused(false)
   }, [currentSong])
 
-  console.log(playerState)
+  useEffect(() => {
+    setIsPaused(true)
+  }, [])
 
   return (
     <Box
@@ -92,7 +89,10 @@ const Player = ({ accessToken, currentSong }: PlayerProps) => {
 
         <Button
           onClick={() => {
-            player?.togglePlay()
+            if (isResume) {
+              playSong([currentTrack?.uri])
+              setIsResume(false)
+            } else player?.togglePlay()
             setIsPaused((prev) => !prev)
           }}
         >

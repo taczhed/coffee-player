@@ -2,6 +2,7 @@ import { Box } from "@mui/material"
 import { useState, useEffect } from "react"
 import SpotifyWebApi from "spotify-web-api-node"
 import useSpotifyAuth from "../../../useSpotifyAuth"
+import { useAppSelector } from "../../../utilities/hooks"
 import AutoSearchBar from "./AutoSearchBar"
 import Player from "./Player"
 
@@ -12,8 +13,11 @@ const SpotifyApi = new SpotifyWebApi({
 })
 
 const Application = () => {
+  console.log("Application re-render")
+
   const [currentSong, setCurrentSong] = useState<string | undefined>(undefined)
-  const accessToken = useSpotifyAuth(code ? code : undefined)
+  const authorization = useSpotifyAuth(code ? code : undefined)
+  const accessToken = useAppSelector((state) => state.accessToken.value)
 
   useEffect(() => {
     if (!accessToken) return

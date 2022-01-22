@@ -30,7 +30,7 @@ export default function useSpotifyPlayer(accessToken: string | undefined) {
         if (!state) return
         setPlayerState(state)
         setCurrentTrack(state.track_window.current_track)
-        // console.log("state changed!")
+        console.log("state changed!")
       })
 
       player.addListener("ready", ({ device_id }) => {
@@ -41,7 +41,7 @@ export default function useSpotifyPlayer(accessToken: string | undefined) {
     }
   }, [accessToken])
 
-  const playSong = (songs: Array<string>) => {
+  const playSong = (songs: Array<string | undefined>) => {
     if (!deviceId) return
     axios.put(
       `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
@@ -56,10 +56,32 @@ export default function useSpotifyPlayer(accessToken: string | undefined) {
     )
   }
 
-  const getCurrentPosition = () => {
-    if (!playerState) return
-    return playerState.position
-  }
+  useEffect(() => {
+    // https://api.spotify.com/v1/me/player/currently-playing
+    // https://api.spotify.com/v1/me/player/recently-played/?limit=1
+    axios
+      .get("https://api.spotify.com/v1/me/player/currently-playing", {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((playingSong) => {
+        if (playingSong.data === "") {
+          axios
+            .get(
+              "https://api.spotify.com/v1/me/player/recently-played/?limit=1",
+              {
+                headers: {
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              },
+            )
+            .then((recentlyplayedSong) =>
+              setCurrentTrack(recentlyplayedSong.data.items[0].track),
+            )
+        } else setCurrentTrack(playingSong.data.item)
+      })
+  }, [])
 
   return {
     deviceId,
@@ -67,6 +89,5 @@ export default function useSpotifyPlayer(accessToken: string | undefined) {
     playerState,
     currentTrack,
     playSong,
-    getCurrentPosition,
   }
 }

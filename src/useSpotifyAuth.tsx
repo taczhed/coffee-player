@@ -1,22 +1,27 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import { handleAccessToken } from "./features/accessTokenSlice"
+import { useAppDispatch } from "./utilities/hooks"
 
 export default function useSpotifyAuth(code: string | undefined) {
-  const [accessToken, setAccessToken] = useState<string | undefined>()
   const [refreshToken, setRefreshToken] = useState<string | undefined>()
   const [expiresIn, setExpiresIn] = useState<number | undefined>()
 
   const history = useHistory()
+
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     axios
       .post("http://localhost:8080/login", { code })
       .then((res) => {
         console.log(res.data)
-        setAccessToken(res.data.accessToken)
         setRefreshToken(res.data.refreshToken)
         setExpiresIn(res.data.expiresIn)
+
+        dispatch(handleAccessToken(res.data.accessToken))
+
         history.push("/")
       })
       .catch(() => {
@@ -31,7 +36,7 @@ export default function useSpotifyAuth(code: string | undefined) {
         .post("http://localhost:8080/refresh", { refreshToken })
         .then((res) => {
           console.log(res.data)
-          setAccessToken(res.data.accessToken)
+          dispatch(handleAccessToken(res.data.accessToken))
           setExpiresIn(res.data.expiresIn)
         })
         .catch(() => {
@@ -42,5 +47,5 @@ export default function useSpotifyAuth(code: string | undefined) {
     return () => clearInterval(interval)
   }, [refreshToken, expiresIn, history])
 
-  return accessToken
+  // return accessToken
 }
