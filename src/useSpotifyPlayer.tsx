@@ -1,66 +1,15 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import { useState, useEffect } from "react"
 
 export default function useSpotifyPlayer(accessToken: string | undefined) {
-  const [player, setPlayer] = useState<null | Spotify.Player>(null)
-  const [deviceId, setDeviceId] = useState<null | string>(null)
-  const [playerState, setPlayerState] = useState<null | Spotify.PlaybackState>(
+  const [lastCachedTrack, setLastCachedTrack] = useState<null | Spotify.Track>(
     null,
   )
-  const [currentTrack, setCurrentTrack] = useState<null | Spotify.Track>(null)
 
   useEffect(() => {
-    const script = document.createElement("script")
-    script.src = "https://sdk.scdn.co/spotify-player.js"
-    script.async = true
-    document.body.appendChild(script)
-
-    window.onSpotifyWebPlaybackSDKReady = () => {
-      const player = new window.Spotify.Player({
-        name: "Coffee Player",
-        getOAuthToken: (cb) => {
-          cb(accessToken ? accessToken : "invalid_token")
-        },
-        volume: 0.5,
-      })
-
-      setPlayer(player)
-
-      player.addListener("player_state_changed", (state) => {
-        if (!state) return
-        setPlayerState(state)
-        setCurrentTrack(state.track_window.current_track)
-        console.log("state changed!")
-      })
-
-      player.addListener("ready", ({ device_id }) => {
-        setDeviceId(device_id)
-      })
-
-      player.connect()
-    }
-  }, [accessToken])
-
-  const playSong = (songs: Array<string | undefined>) => {
-    if (!deviceId) return
-    axios.put(
-      `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
-      {
-        uris: songs,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
-    )
-  }
-
-  useEffect(() => {
-    // https://api.spotify.com/v1/me/player/currently-playing
-    // https://api.spotify.com/v1/me/player/recently-played/?limit=1
     axios
       .get("https://api.spotify.com/v1/me/player/currently-playing", {
+        // .get("https://api.spotify.com/v1/recommendations", {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -77,17 +26,58 @@ export default function useSpotifyPlayer(accessToken: string | undefined) {
               },
             )
             .then((recentlyplayedSong) =>
-              setCurrentTrack(recentlyplayedSong.data.items[0].track),
+              setLastCachedTrack(recentlyplayedSong.data.items[0].track),
             )
-        } else setCurrentTrack(playingSong.data.item)
+        } else setLastCachedTrack(playingSong.data.item)
       })
-  }, [])
+  }, [accessToken])
+
+  const getUsersTop = (type: string) => {
+    return axios
+      .get(`https://api.spotify.com/v1/me/top/${type}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((items) => {
+        return items
+      })
+  }
+
+  const getGenres = (items: AxiosResponse<any, any>) => {
+    let genres: string[] = []
+    let genresQuery = ""
+    items.data.items.map((artist: any) => {
+      artist.genres.map((genre: any) => {
+        if (!genres.includes(genre) && genres.length < 3) {
+          genres.push(genre)
+          genresQuery += `%2C${genre.replaceAll(" ", "%20")}`
+        }
+      })
+    })
+    return genresQuery.slice(3, genresQuery.length)
+  }
+
+  const fetchRecommendations = async () => {
+    const artists = await getUsersTop("artists")
+    let seed_genres = getGenres(artists)
+
+    axios
+      .get(
+        `https://api.spotify.com/v1/recommendations?seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_genres=${seed_genres}&seed_tracks=0c6xIDDpzE81m2q797ordA`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+      .then((recomendations) => {
+        console.log(recomendations)
+      })
+  }
 
   return {
-    deviceId,
-    player,
-    playerState,
-    currentTrack,
-    playSong,
+    lastCachedTrack,
+    fetchRecommendations,
   }
 }

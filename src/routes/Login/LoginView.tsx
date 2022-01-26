@@ -5,7 +5,7 @@ const logo = require("../../assets/logo/white.png")
 const background = require("../../assets/background/gradient1.jpeg")
 
 const AUTH_URL =
-  "https://accounts.spotify.com/authorize?client_id=b92eae32f8f74940addf1c460abd6e78&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20user-library-read%20user-library-modify%20user-read-recently-played"
+  "https://accounts.spotify.com/authorize?client_id=b92eae32f8f74940addf1c460abd6e78&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20user-library-read%20user-library-modify%20user-read-recently-played%20user-top-read%20user-read-playback-position%20user-follow-read"
 
 const LoginView = () => {
   return (
