@@ -11,6 +11,7 @@ export default function useSpotifyAuth(code: string | undefined) {
   const history = useHistory()
 
   const dispatch = useAppDispatch()
+  // dispatch(handleAccessToken(res.data.accessToken))
 
   useEffect(() => {
     axios

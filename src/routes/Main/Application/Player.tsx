@@ -9,24 +9,22 @@ interface PlayerProps {
 }
 
 const Player = ({ accessToken, currentSong }: PlayerProps) => {
-  const { lastCachedTrack, fetchRecommendations } =
-    useSpotifyPlayer(accessToken)
+  const { lastCachedTrack } = useSpotifyPlayer(accessToken)
   const [playerState, setPlayerState] = useState<any>(null)
 
-  // fetchRecommendations()
-
   useEffect(() => {
-    fetchRecommendations()
+    // ;(async () => {
+    //   const recommendations = await fetchRecommendations()
+    //   console.log(recommendations)
+    // })()
   }, [])
 
   return (
     <Box
       sx={{
-        position: "absolute",
         width: "100%",
-        height: 84,
+        height: 80,
         background: "rgba(255, 255, 255, 0.15)",
-        bottom: 0,
         fontFamily: "'Barlow', sans-serif",
         display: "flex",
         alignItems: "center",
@@ -38,14 +36,14 @@ const Player = ({ accessToken, currentSong }: PlayerProps) => {
           <SpotifyPlayer
             callback={(state) => setPlayerState(state)}
             name="Coffee Player"
-            // play
+            play
             persistDeviceSelection
             syncExternalDevice
             showSaveIcon
             token={accessToken ? accessToken : "token_undefined"}
             uris={currentSong ? [currentSong] : [lastCachedTrack.uri]}
             styles={{
-              height: 84,
+              height: 80,
               activeColor: "teal",
               sliderColor: "teal",
               sliderHeight: 6,

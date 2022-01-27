@@ -1,12 +1,13 @@
 import { Box, Typography, Button } from "@mui/material"
 import React from "react"
+import { handleCurrentSong } from "../../../features/currentSongSlice"
+import { useAppDispatch } from "../../../utilities/hooks"
 
 interface AutoSearchBarItemProps {
   title: string
   uri: string
   artists: string
   imgSrc?: string
-  setCurrentSong: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
 const AutoSearchBarItem = ({
@@ -14,8 +15,9 @@ const AutoSearchBarItem = ({
   uri,
   artists,
   imgSrc,
-  setCurrentSong,
 }: AutoSearchBarItemProps) => {
+  const dispatch = useAppDispatch()
+
   return (
     <Button
       sx={{
@@ -27,7 +29,7 @@ const AutoSearchBarItem = ({
         justifyContent: "flex-start",
         borderRadius: 0,
       }}
-      onClick={() => setCurrentSong(uri)}
+      onClick={() => dispatch(handleCurrentSong(uri))}
     >
       <img src={imgSrc} alt={title} />
       <Box

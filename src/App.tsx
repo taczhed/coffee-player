@@ -4,7 +4,7 @@ import MainView from "./routes/Main/MainView"
 
 const code = new URLSearchParams(window.location.search).get("code")
 
-// app works992px and more
+// app works1024px and more
 
 const App = () => {
   return (

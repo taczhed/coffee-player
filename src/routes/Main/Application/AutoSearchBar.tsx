@@ -15,14 +15,9 @@ interface Track {
 interface AutoSearchBarProps {
   accessToken: string | undefined
   SpotifyApi: SpotifyWebApi
-  setCurrentSong: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 
-const AutoSearchBar = ({
-  accessToken,
-  SpotifyApi,
-  setCurrentSong,
-}: AutoSearchBarProps) => {
+const AutoSearchBar = ({ accessToken, SpotifyApi }: AutoSearchBarProps) => {
   const [searchText, setSearchText] = useState("")
   const [searchResults, setSearchResults] = useState<Array<Track>>([])
   const [areSearchResultsFocused, setAreSearchResultsFocused] = useState(false)
@@ -95,7 +90,7 @@ const AutoSearchBar = ({
               top: 48,
               width: "100%",
               position: "absolute",
-              background: "rgba(200, 200, 200, 0.75)",
+              background: "rgba(215, 215, 215, 1)",
               py: 1,
             }}
           >
@@ -106,7 +101,6 @@ const AutoSearchBar = ({
                 uri={result.uri}
                 artists={smashArtists(result.artists)}
                 imgSrc={result.albumUrl}
-                setCurrentSong={setCurrentSong}
               />
             ))}
           </Stack>
