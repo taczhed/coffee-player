@@ -4,7 +4,7 @@ import "./index.css"
 import App from "./App"
 import { ThemeProvider } from "@mui/material/styles"
 import { theme } from "./theme"
-import store from "./store"
+import store from "./store/store"
 import { Provider } from "react-redux"
 
 ReactDOM.render(

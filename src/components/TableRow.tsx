@@ -1,7 +1,7 @@
-import { Button, Box, Typography } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import { useAppDispatch } from "../utilities/hooks"
-import { handleCurrentSong } from "../features/currentSongSlice"
+import { useAppDispatch } from "../store/hooks"
+import { handleCurrentSong } from "../store/currentSongSlice"
 
 interface TableRowProps {
   track: Spotify.Track
@@ -19,7 +19,7 @@ const TableRow = ({ track }: TableRowProps) => {
         justifyContent: "flex-start",
         alignItems: "center",
         color: "white",
-        p: 1,
+        p: 0.5,
       }}
     >
       <Box

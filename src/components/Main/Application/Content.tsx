@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import Discover from "../../Contents/Discover/Discover"
+import Discover from "./routes/Discover"
 
 const Content = () => {
   return (

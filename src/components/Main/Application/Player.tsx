@@ -1,23 +1,17 @@
 import { useEffect, useState } from "react"
-import useSpotifyPlayer from "../../../useSpotifyPlayer"
+import useSpotifyPlayer from "../../../hooks/useSpotifyPlayer"
 import SpotifyPlayer from "react-spotify-web-playback"
 import { Box } from "@mui/material"
+import { useAppSelector } from "../../../store/hooks"
 
 interface PlayerProps {
   accessToken: string | undefined
-  currentSong: string | undefined
 }
 
-const Player = ({ accessToken, currentSong }: PlayerProps) => {
+const Player = ({ accessToken }: PlayerProps) => {
   const { lastCachedTrack } = useSpotifyPlayer(accessToken)
   const [playerState, setPlayerState] = useState<any>(null)
-
-  useEffect(() => {
-    // ;(async () => {
-    //   const recommendations = await fetchRecommendations()
-    //   console.log(recommendations)
-    // })()
-  }, [])
+  const currentSong = useAppSelector((state) => state.currentSong.value)
 
   return (
     <Box
@@ -37,6 +31,7 @@ const Player = ({ accessToken, currentSong }: PlayerProps) => {
             callback={(state) => setPlayerState(state)}
             name="Coffee Player"
             play
+            // autoPlay
             persistDeviceSelection
             syncExternalDevice
             showSaveIcon

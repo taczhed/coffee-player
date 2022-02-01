@@ -1,7 +1,7 @@
 import { Grid, Box, Container } from "@mui/material"
-import useSpotifyAuth from "../../useSpotifyAuth"
+import useSpotifyAuth from "../../hooks/useSpotifyAuth"
 import Application from "./Application/Application"
-import Navigation from "./Navigation/Navigation"
+import Navigation from "../Navigation/Navigation"
 // import { useTheme } from "@mui/material/styles"
 const background = require("../../assets/background/gradient1.jpeg")
 

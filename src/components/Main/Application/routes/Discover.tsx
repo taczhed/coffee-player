@@ -1,9 +1,9 @@
 import { Box, CircularProgress, Stack, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import TableRow from "../../../components/TableRow"
-import useSpotifyRecommendations from "../../../useSpotifyRecommendations"
-import { useAppSelector } from "../../../utilities/hooks"
-import RecommendationBox from "./RecommendationBox"
+import TableRow from "../../../TableRow"
+import useSpotifyRecommendations from "../../../../hooks/useSpotifyRecommendations"
+import { useAppSelector } from "../../../../store/hooks"
+import RecommendationBox from "../../../RecommendationBox"
 
 const Discover = () => {
   const accessToken = useAppSelector((state) => state.accessToken.value)
@@ -12,6 +12,8 @@ const Discover = () => {
   const [recommendedTracks, setRecommendedTracks] = useState<
     Array<Spotify.Track>
   >([])
+
+  const [boxImages, setBoxImages] = useState<Array<string>>([])
 
   useEffect(() => {
     toggleRecommendation("Your favourite Artists")
@@ -24,7 +26,16 @@ const Discover = () => {
       recomendationsBasedOnRecentlyPlayedTracks,
     } = await fetchRecommendations()
 
-    console.log(recomendationsBasedOnArtists)
+    console.log(recomendationsBasedOnRecentlyPlayedTracks)
+
+    setBoxImages([
+      recomendationsBasedOnArtists[0].album.images[
+        recomendationsBasedOnArtists[0].album.images.length - 2
+      ].url,
+      recomendationsBasedOnRecentlyPlayedTracks[0].album.images[
+        recomendationsBasedOnRecentlyPlayedTracks[0].album.images.length - 2
+      ].url,
+    ])
 
     if (type === "Your favourite Artists")
       setRecommendedTracks(recomendationsBasedOnArtists)
@@ -45,14 +56,14 @@ const Discover = () => {
         </Box>
 
         <RecommendationBox
+          bgcimg={boxImages[0]}
           title="Your favourite Artists"
-          bgc="rgba(255,255,255,0.30)"
           toggleRecommendation={toggleRecommendation}
         />
 
         <RecommendationBox
+          bgcimg={boxImages[1]}
           title="Recently played tracks"
-          bgc="rgba(255,255,255,0.30)"
           toggleRecommendation={toggleRecommendation}
         />
       </Stack>

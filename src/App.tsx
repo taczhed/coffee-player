@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import LoginView from "./routes/Login/LoginView"
-import MainView from "./routes/Main/MainView"
+import LoginView from "./components/Login/LoginView"
+import MainView from "./components/Main/MainView"
 
 const code = new URLSearchParams(window.location.search).get("code")
 

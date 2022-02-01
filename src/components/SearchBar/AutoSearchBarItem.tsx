@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material"
 import React from "react"
-import { handleCurrentSong } from "../../../features/currentSongSlice"
-import { useAppDispatch } from "../../../utilities/hooks"
+import { handleCurrentSong } from "../../store/currentSongSlice"
+import { useAppDispatch } from "../../store/hooks"
 
 interface AutoSearchBarItemProps {
   title: string

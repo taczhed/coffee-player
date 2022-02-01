@@ -1,8 +1,8 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
-import { handleAccessToken } from "./features/accessTokenSlice"
-import { useAppDispatch } from "./utilities/hooks"
+import { handleAccessToken } from "../store/accessTokenSlice"
+import { useAppDispatch } from "../store/hooks"
 
 export default function useSpotifyAuth(code: string | undefined) {
   const [refreshToken, setRefreshToken] = useState<string | undefined>()

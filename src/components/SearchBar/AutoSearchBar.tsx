@@ -2,7 +2,7 @@ import { InputBase, Button, Box, Stack } from "@mui/material"
 import React, { useState, useEffect } from "react"
 import SearchIcon from "@mui/icons-material/Search"
 import SpotifyWebApi from "spotify-web-api-node"
-import { reduceTracks, smashArtists } from "../../../utilities/searchFunctions"
+import { reduceTracks, smashArtists } from "../../utilities/searchFunctions"
 import AutoSearchBarItem from "./AutoSearchBarItem"
 
 interface Track {

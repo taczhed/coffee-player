@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit"
-import accessTokenReducer from "./features/accessTokenSlice"
-import currentSongReducer from "./features/currentSongSlice"
+import accessTokenReducer from "./accessTokenSlice"
+import currentSongReducer from "./currentSongSlice"
 
 const store = configureStore({
   reducer: {

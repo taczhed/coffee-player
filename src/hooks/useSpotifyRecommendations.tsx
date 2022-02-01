@@ -1,6 +1,4 @@
-import { ContentPasteSearchOutlined } from "@mui/icons-material"
-import axios, { AxiosResponse } from "axios"
-import { useState, useEffect } from "react"
+import axios from "axios"
 
 export default function useSpotifyRecommendations(
   accessToken: string | undefined,
@@ -82,7 +80,7 @@ export default function useSpotifyRecommendations(
     return {
       recomendationsBasedOnArtists: await axios
         .get(
-          `https://api.spotify.com/v1/recommendations?seed_artists=${seed_artists_query}`,
+          `https://api.spotify.com/v1/recommendations?limit=50&seed_artists=${seed_artists_query}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -95,7 +93,7 @@ export default function useSpotifyRecommendations(
 
       recomendationsBasedOnGenres: await axios
         .get(
-          `https://api.spotify.com/v1/recommendations?seed_genres=${seed_genres_query}`,
+          `https://api.spotify.com/v1/recommendations?limit=50&seed_genres=${seed_genres_query}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -108,7 +106,7 @@ export default function useSpotifyRecommendations(
 
       recomendationsBasedOnRecentlyPlayedTracks: await axios
         .get(
-          `https://api.spotify.com/v1/recommendations?seed_tracks=${seed_tracks_query}`,
+          `https://api.spotify.com/v1/recommendations?limit=50&seed_tracks=${seed_tracks_query}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
