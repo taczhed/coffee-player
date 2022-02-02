@@ -28,13 +28,6 @@ const MainView = () => {
           height: "100%",
           width: "100%",
           borderRadius: 0,
-          // md and more do bottom
-          //md={10}
-          // [theme.breakpoints.up("md")]: {
-          //   height: "80%",
-          //   borderRadius: 12,
-          //   background: `rgba(255,255,255,0.15)`,
-          // },
         }}
       >
         <Navigation />

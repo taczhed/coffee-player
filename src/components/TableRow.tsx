@@ -24,7 +24,11 @@ const TableRow = ({ track }: TableRowProps) => {
     >
       <Box
         sx={{
-          p: 2.5,
+          width: 48,
+          height: 48,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           borderRadius: 20,
           backgroundImage: `url(${
             track.album.images[track.album.images.length - 1].url

@@ -1,20 +1,17 @@
 import { Typography, Box, Button } from "@mui/material"
 
 interface RecommendationBoxProps {
-  bgcimg?: string
   title: string
   toggleRecommendation: (type: string) => void
 }
 
 const RecommendationBox = ({
-  bgcimg,
   title,
   toggleRecommendation,
 }: RecommendationBoxProps) => {
   return (
     <Box
       sx={{
-        // backgroundImage: `url(${bgcimg})`,
         m: 1,
         backgroundSize: "cover",
       }}
@@ -22,7 +19,7 @@ const RecommendationBox = ({
       <Button
         sx={{
           flex: 1,
-          py: 8,
+          p: 8,
           backgroundColor: "rgba(255,255,255,0.30)",
         }}
         onClick={() => toggleRecommendation(title)}
