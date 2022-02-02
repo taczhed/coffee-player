@@ -1,8 +1,6 @@
 import axios from "axios"
 
-export default function useSpotifyRecommendations(
-  accessToken: string | undefined,
-) {
+export default function useSpotifyContent(accessToken: string | undefined) {
   const getUsersTop = (type: string) => {
     return axios
       .get(`https://api.spotify.com/v1/me/top/${type}`, {
@@ -61,8 +59,6 @@ export default function useSpotifyRecommendations(
       }
     }
 
-    // console.log(seeds_queries[1])
-
     return {
       seed_artists_query: seeds_queries[0].slice(3, seeds_queries[0].length),
       seed_genres_query: seeds_queries[1].slice(3, seeds_queries[1].length),
@@ -119,7 +115,25 @@ export default function useSpotifyRecommendations(
     }
   }
 
+  const fetchSavedSongs = async (pageNumber: number) => {
+    return axios
+      .get(
+        `https://api.spotify.com/v1/me/tracks?limit=30&offset=${
+          (pageNumber - 1) * 30
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+      .then((data) => {
+        return data.data
+      })
+  }
+
   return {
     fetchRecommendations,
+    fetchSavedSongs,
   }
 }

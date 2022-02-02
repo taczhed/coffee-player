@@ -1,6 +1,7 @@
 import { Box } from "@mui/material"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import Discover from "./routes/Discover"
+import Favourites from "./routes/Favourites"
 
 const Content = () => {
   return (
@@ -25,9 +26,14 @@ const Content = () => {
       }}
     >
       <Switch>
-        <Route path="/favourites">Favourites</Route>
+        <Route path="/favourites">
+          <Favourites />
+        </Route>
+
         <Route path="/albums">Albums</Route>
+
         <Route path="/artists">Artists</Route>
+
         <Route path="*">
           <Discover />
         </Route>

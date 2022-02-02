@@ -15,6 +15,21 @@ export const theme = createTheme({
         },
       },
     },
+    MuiPaginationItem: {
+      styleOverrides: {
+        root: {
+          color: "#ffffff",
+          background: "rgba(255,255,255,0.15)",
+          textDecoration: "none",
+          "&:hover": {
+            background: "rgba(255,255,255,0.3)",
+          },
+          "&:selected": {
+            background: "red",
+          },
+        },
+      },
+    },
   },
 
   typography: {

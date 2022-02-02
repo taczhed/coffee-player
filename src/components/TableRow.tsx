@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
-import { useAppDispatch } from "../store/hooks"
+import EqualizerIcon from "@mui/icons-material/Equalizer"
+import { useAppDispatch, useAppSelector } from "../store/hooks"
 import { handleCurrentSong } from "../store/currentSongSlice"
 
 interface TableRowProps {
@@ -9,6 +10,7 @@ interface TableRowProps {
 
 const TableRow = ({ track }: TableRowProps) => {
   const dispatch = useAppDispatch()
+  const currentSong = useAppSelector((state) => state.currentSong.value)
   return (
     <Box
       sx={{
@@ -41,7 +43,7 @@ const TableRow = ({ track }: TableRowProps) => {
         }}
         onClick={() => dispatch(handleCurrentSong(track.uri))}
       >
-        <PlayArrowIcon />
+        {track.uri === currentSong ? <EqualizerIcon /> : <PlayArrowIcon />}
       </Box>
       <Box
         sx={{
