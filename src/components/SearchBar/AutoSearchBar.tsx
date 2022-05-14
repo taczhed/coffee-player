@@ -40,9 +40,15 @@ const AutoSearchBar = ({ accessToken, SpotifyApi }: AutoSearchBarProps) => {
     <Box
       sx={{
         width: "100%",
-        py: 2,
-        px: 3,
         background: "rgba(255, 255, 255, 0.15)",
+        py: {
+          xs: 0,
+          sm: 1,
+        },
+        px: {
+          xs: 0,
+          sm: 1,
+        },
       }}
     >
       <Box
@@ -63,6 +69,10 @@ const AutoSearchBar = ({ accessToken, SpotifyApi }: AutoSearchBarProps) => {
         >
           <SearchIcon
             sx={{
+              width: {
+                xs: 18,
+                sm: 48,
+              },
               color: "white",
             }}
           />
@@ -74,7 +84,10 @@ const AutoSearchBar = ({ accessToken, SpotifyApi }: AutoSearchBarProps) => {
           placeholder="Search..."
           sx={{
             color: "white",
-            fontSize: 16,
+            fontSize: {
+              xs: 12,
+              sm: 16,
+            },
             width: "100%",
             background: "rgba(255, 255, 255, 0.15)",
             px: 1,
@@ -91,7 +104,10 @@ const AutoSearchBar = ({ accessToken, SpotifyApi }: AutoSearchBarProps) => {
               width: "100%",
               position: "absolute",
               background: "rgba(215, 215, 215, 1)",
-              py: 1,
+              py: {
+                xs: 0,
+                sm: 1,
+              },
             }}
           >
             {searchResults.map((result, index) => (

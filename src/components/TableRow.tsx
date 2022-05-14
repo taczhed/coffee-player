@@ -26,8 +26,8 @@ const TableRow = ({ track }: TableRowProps) => {
     >
       <Box
         sx={{
-          width: 48,
-          height: 48,
+          width: { xs: 30, sm: 48 },
+          height: { xs: 30, sm: 48 },
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -50,11 +50,15 @@ const TableRow = ({ track }: TableRowProps) => {
           display: "flex",
           flexDirection: "column",
           textAlign: "left",
-          px: 2,
+          px: { xs: 1, sm: 2 },
         }}
       >
-        <Typography variant="body1">{track.artists[0].name}</Typography>
-        <Typography variant="overline">{track.name}</Typography>
+        <Typography variant="body1" sx={{ fontSize: { xs: 12, sm: 16 } }}>
+          {track.artists[0].name}
+        </Typography>
+        <Typography variant="overline" sx={{ fontSize: { xs: 10, sm: 12 } }}>
+          {track.name}
+        </Typography>
       </Box>
     </Box>
   )

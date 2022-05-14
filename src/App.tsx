@@ -4,8 +4,6 @@ import MainView from "./components/Main/MainView"
 
 const code = new URLSearchParams(window.location.search).get("code")
 
-// app works1024px and more
-
 const App = () => {
   return (
     <div className="App">

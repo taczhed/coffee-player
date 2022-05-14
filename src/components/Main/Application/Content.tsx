@@ -1,5 +1,5 @@
 import { Box } from "@mui/material"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
+import { Switch, Route } from "react-router-dom"
 import Discover from "./routes/Discover"
 import Favourites from "./routes/Favourites"
 
@@ -10,7 +10,10 @@ const Content = () => {
         width: "100%",
         height: "calc(100% - 80px * 2)",
         overflowY: "scroll",
-        p: 3,
+        p: {
+          xs: 1,
+          sm: 3,
+        },
         "&::-webkit-scrollbar": {
           width: 5,
           height: 5,

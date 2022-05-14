@@ -1,5 +1,5 @@
-import { Box, Typography, Button } from "@mui/material"
 import React from "react"
+import { Box, Typography, Button } from "@mui/material"
 import { handleCurrentSong } from "../../store/currentSongSlice"
 import { useAppDispatch } from "../../store/hooks"
 
@@ -22,8 +22,14 @@ const AutoSearchBarItem = ({
     <Button
       sx={{
         textAlign: "left",
-        px: 2,
-        py: 1,
+        px: {
+          xs: 0.5,
+          sm: 2,
+        },
+        py: {
+          xs: 0.5,
+          sm: 1,
+        },
         display: "flex",
         color: "#000000",
         justifyContent: "flex-start",
@@ -34,14 +40,37 @@ const AutoSearchBarItem = ({
       <img src={imgSrc} alt={title} />
       <Box
         sx={{
-          px: 1,
+          px: {
+            xs: 0.5,
+            sm: 1,
+          },
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
         }}
       >
-        <Typography variant="body1">{title}</Typography>
-        <Typography variant="overline">{artists}</Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: {
+              xs: 12,
+              sm: 16,
+            },
+          }}
+        >
+          {title}
+        </Typography>
+        <Typography
+          variant="overline"
+          sx={{
+            fontSize: {
+              xs: 9,
+              sm: 14,
+            },
+          }}
+        >
+          {artists}
+        </Typography>
       </Box>
     </Button>
   )

@@ -7,7 +7,12 @@ interface TrackListProps {
 
 const TrackList = ({ tracks }: TrackListProps) => {
   return (
-    <Stack justifyContent="center" alignItems="center" spacing={1}>
+    <Stack
+      justifyContent="center"
+      alignItems="center"
+      spacing={1}
+      sx={{ width: "100%" }}
+    >
       {tracks.length === 0 ? (
         <CircularProgress color="info" />
       ) : (

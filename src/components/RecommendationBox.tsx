@@ -12,19 +12,32 @@ const RecommendationBox = ({
   return (
     <Box
       sx={{
-        m: 1,
+        m: 0.5,
         backgroundSize: "cover",
       }}
     >
       <Button
         sx={{
           flex: 1,
-          p: 8,
+          p: {
+            xs: 2,
+            sm: 4,
+          },
           backgroundColor: "rgba(255,255,255,0.30)",
         }}
         onClick={() => toggleRecommendation(title)}
       >
-        <Typography variant="h6">{title}</Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: {
+              xs: 8,
+              sm: 20,
+            },
+          }}
+        >
+          {title}
+        </Typography>
       </Button>
     </Box>
   )

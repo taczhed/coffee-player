@@ -4,9 +4,12 @@
 
 This project created with:
 
-- [Create React App](https://github.com/facebook/create-react-app)
+- [React](https://reactjs.org/)
 - [React Router](https://reactrouter.com/)
+- [React Redux](https://react-redux.js.org/)
 - [Material UI](https://mui.com/)
+- [Spotify API](https://developer.spotify.com/documentation/web-api/)
+- [Node](https://nodejs.org/en/) with [Express](https://expressjs.com/)
 
 ## Available Scripts
 

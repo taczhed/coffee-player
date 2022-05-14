@@ -15,7 +15,10 @@ const Navigation = () => {
   return (
     <Box
       sx={{
-        width: 164,
+        width: {
+          xs: 64,
+          sm: 164,
+        },
         height: "100%",
         py: 1,
         background: "rgba(255,255,255,0.15)",

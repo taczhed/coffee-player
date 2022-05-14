@@ -28,29 +28,25 @@ const Favourites = () => {
   }
 
   return (
-    <Box sx={{ width: "100%", height: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
       <RouteHeader
         title="Favourites"
         subtitle="Playlist of your favourite tracks"
       />
-      {/* <Stack spacing={2}>
-        <Pagination
-          count={countPages()}
-          shape="rounded"
-          size="large"
-          sx={{ my: 4, mx: "auto" }}
-          onChange={(event: React.ChangeEvent<unknown>, value: number) =>
-            setPageNumber(value)
-          }
-        />
-      </Stack> */}
       <TrackList tracks={favouriteTracks} />
-      <Stack spacing={2}>
+      <Stack spacing={1} sx={{ my: 1 }}>
         <Pagination
           count={countPages()}
           shape="rounded"
-          size="large"
-          sx={{ my: 4, mx: "auto" }}
+          size="small"
           onChange={(event: React.ChangeEvent<unknown>, value: number) =>
             setPageNumber(value)
           }

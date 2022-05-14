@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import useSpotifyPlayer from "../../../hooks/useSpotifyPlayer"
 import SpotifyPlayer from "react-spotify-web-playback"
 import { Box } from "@mui/material"
@@ -16,6 +16,7 @@ const Player = ({ accessToken }: PlayerProps) => {
   return (
     <Box
       sx={{
+        bottom: 0,
         width: "100%",
         height: 80,
         background: "rgba(255, 255, 255, 0.15)",
