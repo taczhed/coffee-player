@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface currentSongState {
-  value: string | undefined
+  value: Spotify.Track | undefined
 }
 
 const initialState = {
@@ -12,7 +12,7 @@ export const currentSongSlice = createSlice({
   name: "currentSong",
   initialState,
   reducers: {
-    handleCurrentSong: (state, action: PayloadAction<string>) => {
+    handleCurrentSong: (state, action: PayloadAction<Spotify.Track>) => {
       state.value = action.payload
     },
   },

@@ -35,7 +35,7 @@ const AutoSearchBarItem = ({
         justifyContent: "flex-start",
         borderRadius: 0,
       }}
-      onClick={() => dispatch(handleCurrentSong(uri))}
+      // onClick={() => dispatch(handleCurrentSong({ uri: uri }))}
     >
       <img src={imgSrc} alt={title} />
       <Box

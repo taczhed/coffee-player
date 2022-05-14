@@ -1,24 +1,25 @@
 import { Box } from "@mui/material"
-import { useState, useEffect, createContext } from "react"
+import { useEffect } from "react"
 import SpotifyWebApi from "spotify-web-api-node"
 import useSpotifyAuth from "../../../hooks/useSpotifyAuth"
 import { useAppSelector } from "../../../store/hooks"
 import AutoSearchBar from "../../SearchBar/AutoSearchBar"
 import Content from "./Content"
 import Player from "./Player"
+import auth from "../../../auth.json"
 
-const auth = require("../../../auth.json")
 const code = new URLSearchParams(window.location.search).get("code")
-const SpotifyApi = new SpotifyWebApi({
-  clientId: auth.clientId,
-})
 
 const Application = () => {
-  console.log("Application re-render")
-
-  const authorization = useSpotifyAuth(code ? code : undefined)
   const accessToken = useAppSelector((state) => state.accessToken.value)
 
+  const SpotifyApi = new SpotifyWebApi({
+    clientId: auth.clientId,
+    clientSecret: auth.clientSecret,
+    accessToken: accessToken,
+  })
+
+  useSpotifyAuth(code ? code : undefined)
   useEffect(() => {
     if (!accessToken) return
     SpotifyApi.setAccessToken(accessToken)
@@ -29,8 +30,8 @@ const Application = () => {
       return (
         <>
           <AutoSearchBar accessToken={accessToken} SpotifyApi={SpotifyApi} />
-          <Content />
-          <Player accessToken={accessToken} />
+          <Content SpotifyApi={SpotifyApi} />
+          <Player accessToken={accessToken} SpotifyApi={SpotifyApi} />
         </>
       )
     } else return null

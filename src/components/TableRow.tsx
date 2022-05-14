@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../store/hooks"
 import { handleCurrentSong } from "../store/currentSongSlice"
 
 interface TableRowProps {
-  track: Spotify.Track
+  track: any
 }
 
 const TableRow = ({ track }: TableRowProps) => {
@@ -41,9 +41,9 @@ const TableRow = ({ track }: TableRowProps) => {
             transform: "rotate(20deg)",
           },
         }}
-        onClick={() => dispatch(handleCurrentSong(track.uri))}
+        onClick={() => dispatch(handleCurrentSong(track))}
       >
-        {track.uri === currentSong ? <EqualizerIcon /> : <PlayArrowIcon />}
+        {track === currentSong ? <EqualizerIcon /> : <PlayArrowIcon />}
       </Box>
       <Box
         sx={{

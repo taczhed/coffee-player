@@ -1,23 +1,26 @@
 import { Box, Pagination, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
+import SpotifyWebApi from "spotify-web-api-node"
 import useSpotifyContent from "../../../../hooks/useSpotifyContent"
 import { useAppSelector } from "../../../../store/hooks"
 import RouteHeader from "../../../RouteHeader"
 import TrackList from "../../../TrackList"
 
-const Favourites = () => {
+interface FavouritesProps {
+  SpotifyApi: SpotifyWebApi
+}
+
+const Favourites = ({ SpotifyApi }: FavouritesProps) => {
   const accessToken = useAppSelector((state) => state.accessToken.value)
-  const { fetchSavedSongs } = useSpotifyContent(accessToken)
+  const { fetchSavedSongs } = useSpotifyContent(accessToken, SpotifyApi)
   const [totalNumberOfTracks, setTotalNumberOfTracks] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
-  const [favouriteTracks, setFavouriteTracks] = useState<Array<Spotify.Track>>(
-    [],
-  )
+  const [favouriteTracks, setFavouriteTracks] = useState<Array<any>>([])
 
   useEffect(() => {
     ;(async () => {
       const data = await fetchSavedSongs(pageNumber)
-      let items = data.items.map((item: { track: Spotify.Track }) => item.track)
+      let items = data.items.map((item) => item.track)
       setTotalNumberOfTracks(data.total)
       setFavouriteTracks(items)
     })()

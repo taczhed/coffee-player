@@ -1,9 +1,14 @@
 import { Box } from "@mui/material"
 import { Switch, Route } from "react-router-dom"
+import SpotifyWebApi from "spotify-web-api-node"
 import Discover from "./routes/Discover"
 import Favourites from "./routes/Favourites"
 
-const Content = () => {
+interface ContentProps {
+  SpotifyApi: SpotifyWebApi
+}
+
+const Content = ({ SpotifyApi }: ContentProps) => {
   return (
     <Box
       sx={{
@@ -30,7 +35,7 @@ const Content = () => {
     >
       <Switch>
         <Route path="/favourites">
-          <Favourites />
+          <Favourites SpotifyApi={SpotifyApi} />
         </Route>
 
         <Route path="/albums">Albums</Route>
@@ -38,7 +43,7 @@ const Content = () => {
         <Route path="/artists">Artists</Route>
 
         <Route path="*">
-          <Discover />
+          <Discover SpotifyApi={SpotifyApi} />
         </Route>
       </Switch>
     </Box>

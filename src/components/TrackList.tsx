@@ -2,7 +2,7 @@ import { CircularProgress, Stack } from "@mui/material"
 import TableRow from "./TableRow"
 
 interface TrackListProps {
-  tracks: Array<Spotify.Track>
+  tracks: Array<any>
 }
 
 const TrackList = ({ tracks }: TrackListProps) => {

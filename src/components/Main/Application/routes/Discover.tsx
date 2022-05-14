@@ -1,18 +1,21 @@
 import { Box } from "@mui/material"
 import { useEffect, useState } from "react"
+import SpotifyWebApi from "spotify-web-api-node"
 import useSpotifyContent from "../../../../hooks/useSpotifyContent"
 import { useAppSelector } from "../../../../store/hooks"
 import RecommendationBox from "../../../RecommendationBox"
 import RouteHeader from "../../../RouteHeader"
 import TrackList from "../../../TrackList"
 
-const Discover = () => {
-  const accessToken = useAppSelector((state) => state.accessToken.value)
-  const { fetchRecommendations } = useSpotifyContent(accessToken)
+interface DiscoverProps {
+  SpotifyApi: SpotifyWebApi
+}
 
-  const [recommendedTracks, setRecommendedTracks] = useState<
-    Array<Spotify.Track>
-  >([])
+const Discover = ({ SpotifyApi }: DiscoverProps) => {
+  const accessToken = useAppSelector((state) => state.accessToken.value)
+  const { getRecommendations } = useSpotifyContent(accessToken, SpotifyApi)
+
+  const [recommendedTracks, setRecommendedTracks] = useState<Array<any>>([])
 
   useEffect(() => {
     toggleRecommendation("Your favourite Artists")
@@ -20,15 +23,11 @@ const Discover = () => {
 
   const toggleRecommendation = async (type: string) => {
     setRecommendedTracks([])
-    const {
-      recomendationsBasedOnArtists,
-      recomendationsBasedOnRecentlyPlayedTracks,
-    } = await fetchRecommendations()
 
     if (type === "Your favourite Artists")
-      setRecommendedTracks(recomendationsBasedOnArtists)
+      setRecommendedTracks(await getRecommendations("artists"))
     if (type === "Recently played tracks")
-      setRecommendedTracks(recomendationsBasedOnRecentlyPlayedTracks)
+      setRecommendedTracks(await getRecommendations("tracks"))
   }
 
   return (
