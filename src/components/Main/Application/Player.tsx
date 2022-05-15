@@ -8,19 +8,20 @@ import SkipPreviousIcon from "@mui/icons-material/SkipPrevious"
 import SkipNextIcon from "@mui/icons-material/SkipNext"
 import { useAppSelector } from "../../../store/hooks"
 import SpotifyWebApi from "spotify-web-api-node"
+import { useCookies } from "react-cookie"
 
 interface PlayerProps {
-  accessToken: string | undefined
   SpotifyApi: SpotifyWebApi
 }
 
-const Player = ({ accessToken, SpotifyApi }: PlayerProps) => {
+const Player = ({ SpotifyApi }: PlayerProps) => {
   const currentTrack = useAppSelector((state) => state.currentSong.value)
-
+  const [cookies] = useCookies()
   const [isResume, setIsResume] = useState(true)
   const [isPaused, setIsPaused] = useState(true)
-  const { deviceId, player, playerState, playTrack } =
-    useSpotifyPlayer(accessToken)
+  const { deviceId, player, playerState, playTrack } = useSpotifyPlayer(
+    cookies.accessToken,
+  )
 
   useEffect(() => {
     // playSong([currentSong ? currentSong : "invalid_song"])

@@ -4,7 +4,7 @@ export default function useSpotifyContent(
   accessToken: string | undefined,
   SpotifyApi: SpotifyWebApi,
 ) {
-  const getRecommendations = async (type: string) => {
+  const fetchRecommendations = async (type: string) => {
     let seeds = []
 
     if (type === "tracks") {
@@ -26,12 +26,10 @@ export default function useSpotifyContent(
       }
     }
 
-    const recommendations = await SpotifyApi.getRecommendations({
+    return await SpotifyApi.getRecommendations({
       seed_artists: seeds,
       limit: 50,
     }).then((data) => data.body.tracks)
-
-    return recommendations
   }
 
   const fetchSavedSongs = async (pageNumber: number) => {
@@ -41,8 +39,13 @@ export default function useSpotifyContent(
     }).then((data) => data.body)
   }
 
+  const getMe = async () => {
+    return await SpotifyApi.getMe().then((data) => data.body)
+  }
+
   return {
-    getRecommendations,
+    fetchRecommendations,
     fetchSavedSongs,
+    getMe,
   }
 }

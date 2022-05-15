@@ -4,6 +4,7 @@ import SearchIcon from "@mui/icons-material/Search"
 import SpotifyWebApi from "spotify-web-api-node"
 import { reduceTracks, smashArtists } from "../../utilities/searchFunctions"
 import AutoSearchBarItem from "./AutoSearchBarItem"
+import { useCookies } from "react-cookie"
 
 interface Track {
   artists: string[]
@@ -13,19 +14,19 @@ interface Track {
 }
 
 interface AutoSearchBarProps {
-  accessToken: string | undefined
   SpotifyApi: SpotifyWebApi
 }
 
-const AutoSearchBar = ({ accessToken, SpotifyApi }: AutoSearchBarProps) => {
+const AutoSearchBar = ({ SpotifyApi }: AutoSearchBarProps) => {
   const [searchText, setSearchText] = useState("")
   const [searchResults, setSearchResults] = useState<Array<Track>>([])
   const [areSearchResultsFocused, setAreSearchResultsFocused] = useState(false)
+  const [cookies] = useCookies()
 
   //typing into searchbar mechanism
   useEffect(() => {
     if (searchText === "") return setSearchResults([])
-    if (!accessToken) return
+    if (!cookies.accessToken) return
 
     SpotifyApi.searchTracks(searchText).then((res) => {
       let data = res.body.tracks
@@ -34,7 +35,7 @@ const AutoSearchBar = ({ accessToken, SpotifyApi }: AutoSearchBarProps) => {
       if (searchText === "") return setSearchResults([])
       else setSearchResults(tracks ? tracks.slice(0, 5) : [])
     })
-  }, [searchText, accessToken, SpotifyApi])
+  }, [searchText, cookies.accessToken, SpotifyApi])
 
   return (
     <Box

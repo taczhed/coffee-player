@@ -1,8 +1,8 @@
 import { Box } from "@mui/material"
 import { useEffect, useState } from "react"
+import { useCookies } from "react-cookie"
 import SpotifyWebApi from "spotify-web-api-node"
 import useSpotifyContent from "../../../../hooks/useSpotifyContent"
-import { useAppSelector } from "../../../../store/hooks"
 import RecommendationBox from "../../../RecommendationBox"
 import RouteHeader from "../../../RouteHeader"
 import TrackList from "../../../TrackList"
@@ -12,22 +12,23 @@ interface DiscoverProps {
 }
 
 const Discover = ({ SpotifyApi }: DiscoverProps) => {
-  const accessToken = useAppSelector((state) => state.accessToken.value)
-  const { getRecommendations } = useSpotifyContent(accessToken, SpotifyApi)
-
+  const [cookies] = useCookies()
   const [recommendedTracks, setRecommendedTracks] = useState<Array<any>>([])
+  const { fetchRecommendations } = useSpotifyContent(
+    cookies.accessToken,
+    SpotifyApi,
+  )
 
   useEffect(() => {
     toggleRecommendation("Your favourite Artists")
   }, [])
 
   const toggleRecommendation = async (type: string) => {
-    setRecommendedTracks([])
-
     if (type === "Your favourite Artists")
-      setRecommendedTracks(await getRecommendations("artists"))
-    if (type === "Recently played tracks")
-      setRecommendedTracks(await getRecommendations("tracks"))
+      setRecommendedTracks(await fetchRecommendations("artists"))
+    else if (type === "Recently played tracks")
+      setRecommendedTracks(await fetchRecommendations("tracks"))
+    else setRecommendedTracks([])
   }
 
   return (

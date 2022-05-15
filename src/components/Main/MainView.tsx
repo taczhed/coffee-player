@@ -1,12 +1,23 @@
-import { Grid, Box, Container } from "@mui/material"
-import useSpotifyAuth from "../../hooks/useSpotifyAuth"
+import { Box } from "@mui/material"
 import Application from "./Application/Application"
 import Navigation from "../Navigation/Navigation"
-// import { useTheme } from "@mui/material/styles"
+import auth from "../../auth.json"
+import SpotifyWebApi from "spotify-web-api-node"
+import useSpotifyAuth from "../../hooks/useSpotifyAuth"
+import { useCookies } from "react-cookie"
 const background = require("../../assets/background/gradient1.jpeg")
+const code = new URLSearchParams(window.location.search).get("code")
 
 const MainView = () => {
-  // const theme = useTheme()
+  useSpotifyAuth(code ? code : undefined)
+
+  const [cookies] = useCookies()
+
+  const SpotifyApi = new SpotifyWebApi({
+    clientId: auth.clientId,
+    clientSecret: auth.clientSecret,
+    accessToken: cookies.accessToken,
+  })
 
   return (
     <Box
@@ -16,23 +27,12 @@ const MainView = () => {
         height: "100vh",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
+        flexDirection: "row",
+        overflow: "hidden",
       }}
     >
-      <Grid
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "row",
-          overflow: "hidden",
-          height: "100%",
-          width: "100%",
-          borderRadius: 0,
-        }}
-      >
-        <Navigation />
-        <Application />
-      </Grid>
+      <Navigation SpotifyApi={SpotifyApi} />
+      <Application SpotifyApi={SpotifyApi} />
     </Box>
   )
 }

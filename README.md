@@ -10,6 +10,7 @@ This project created with:
 - [Material UI](https://mui.com/)
 - [Spotify API](https://developer.spotify.com/documentation/web-api/)
 - [spotify-web-api-node](https://developer.spotify.com/documentation/web-api/)
+- [react-cookie](https://www.npmjs.com/package/react-cookie)
 - [Node](https://nodejs.org/en/) with [Express](https://expressjs.com/)
 
 ## Available Scripts

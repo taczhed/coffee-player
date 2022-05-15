@@ -1,42 +1,36 @@
 import { Box } from "@mui/material"
 import { useEffect } from "react"
+import { useCookies } from "react-cookie"
 import SpotifyWebApi from "spotify-web-api-node"
 import useSpotifyAuth from "../../../hooks/useSpotifyAuth"
-import { useAppSelector } from "../../../store/hooks"
 import AutoSearchBar from "../../SearchBar/AutoSearchBar"
 import Content from "./Content"
 import Player from "./Player"
-import auth from "../../../auth.json"
 
-const code = new URLSearchParams(window.location.search).get("code")
+interface ApplicationProps {
+  SpotifyApi: SpotifyWebApi
+}
 
-const Application = () => {
-  const accessToken = useAppSelector((state) => state.accessToken.value)
+const Application = ({ SpotifyApi }: ApplicationProps) => {
+  const [cookies] = useCookies()
 
-  const SpotifyApi = new SpotifyWebApi({
-    clientId: auth.clientId,
-    clientSecret: auth.clientSecret,
-    accessToken: accessToken,
-  })
-
-  useSpotifyAuth(code ? code : undefined)
   useEffect(() => {
-    if (!accessToken) return
-    SpotifyApi.setAccessToken(accessToken)
-  }, [accessToken])
+    if (!cookies.accessToken) return
+    SpotifyApi.setAccessToken(cookies.accessToken)
+  }, [cookies.accessToken, SpotifyApi])
 
   const renderApplication = () => {
-    if (accessToken) {
+    if (cookies.accessToken) {
       return (
-        <>
-          <AutoSearchBar accessToken={accessToken} SpotifyApi={SpotifyApi} />
+        <Box sx={{ height: "100%", width: "100%", position: "relative" }}>
+          <AutoSearchBar SpotifyApi={SpotifyApi} />
           <Content SpotifyApi={SpotifyApi} />
-          <Player accessToken={accessToken} SpotifyApi={SpotifyApi} />
-        </>
+          <Player SpotifyApi={SpotifyApi} />
+        </Box>
       )
     } else return null
   }
 
-  return <Box sx={{ width: "100%", height: "100%" }}>{renderApplication()}</Box>
+  return <Box sx={{ height: "100%", width: "100%" }}>{renderApplication()}</Box>
 }
 export default Application
