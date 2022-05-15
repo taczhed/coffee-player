@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import LoginView from "./components/Login/LoginView"
-import MainView from "./components/Main/MainView"
+import Application from "./components/Main/Application"
 
 const code = new URLSearchParams(window.location.search).get("code")
 
@@ -9,7 +9,7 @@ const App = () => {
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/" children={code ? <MainView /> : <LoginView />} />
+          <Route path="/" children={code ? <Application /> : <LoginView />} />
         </Switch>
       </Router>
     </div>

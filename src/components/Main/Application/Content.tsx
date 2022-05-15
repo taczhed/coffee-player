@@ -38,9 +38,9 @@ const Content = ({ SpotifyApi }: ContentProps) => {
           <Favourites SpotifyApi={SpotifyApi} />
         </Route>
 
-        <Route path="/albums">Albums</Route>
+        <Route path="/most-listened">Most listened</Route>
 
-        <Route path="/artists">Artists</Route>
+        {/* <Route path="/artists">Artists</Route> */}
 
         <Route path="*">
           <Discover SpotifyApi={SpotifyApi} />
