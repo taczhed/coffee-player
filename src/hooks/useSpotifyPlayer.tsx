@@ -1,15 +1,31 @@
 import axios from "axios"
 import { useState, useEffect } from "react"
+import { useCookies } from "react-cookie"
+import SpotifyWebApi from "spotify-web-api-node"
+import { handleCurrentTrack } from "../store/currentTrackSlice"
+import { useAppDispatch } from "../store/hooks"
 
-export default function useSpotifyPlayer(accessToken: string | undefined) {
-  const [player, setPlayer] = useState<null | Spotify.Player>(null)
-  const [deviceId, setDeviceId] = useState<null | string>(null)
-  const [currentTrack, setCurrentTrack] = useState<null | Spotify.Track>(null)
-  const [playerState, setPlayerState] = useState<null | Spotify.PlaybackState>(
-    null,
-  )
+export default function useSpotifyPlayer(SpotifyApi: SpotifyWebApi) {
+  const dispatch = useAppDispatch()
+  const [cookies] = useCookies()
+  const [deviceId, setDeviceId] = useState<string>()
+
+  const [trackTimestamp, setTrackTimestamp] = useState<number | null>()
+  const [trackProgress, setTrackProgress] = useState<number | null>()
 
   useEffect(() => {
+    SpotifyApi.getMyRecentlyPlayedTracks({
+      limit: 1,
+    }).then(
+      (data) => {
+        dispatch(handleCurrentTrack(data.body.items[0].track))
+      },
+      (err) => console.log(err),
+    )
+  }, [])
+
+  useEffect(() => {
+    // player init
     const script = document.createElement("script")
     script.src = "https://sdk.scdn.co/spotify-player.js"
     script.async = true
@@ -18,78 +34,51 @@ export default function useSpotifyPlayer(accessToken: string | undefined) {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new window.Spotify.Player({
         name: "Coffee Player",
+        volume: 1,
         getOAuthToken: (cb) => {
-          cb(accessToken ? accessToken : "invalid_token")
+          cb(cookies.accessToken ? cookies.accessToken : "invalid_token")
         },
-        volume: 0.5,
       })
-
-      setPlayer(player)
-
-      player.addListener("player_state_changed", (state) => {
-        if (!state) return
-        setPlayerState(state)
-        setCurrentTrack(state.track_window.current_track)
-        console.log("state changed!")
-      })
-
-      player.addListener("ready", ({ device_id }) => {
-        setDeviceId(device_id)
-      })
-
+      player.addListener("ready", ({ device_id }) => setDeviceId(device_id))
       player.connect()
     }
-  }, [accessToken])
-
-  useEffect(() => {
-    // https://api.spotify.com/v1/me/player/currently-playing
-    // https://api.spotify.com/v1/me/player/recently-played/?limit=1
-    axios
-      .get("https://api.spotify.com/v1/me/player/currently-playing", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      .then((playingSong) => {
-        if (playingSong.data === "") {
-          axios
-            .get(
-              "https://api.spotify.com/v1/me/player/recently-played/?limit=1",
-              {
-                headers: {
-                  Authorization: `Bearer ${accessToken}`,
-                },
-              },
-            )
-            .then((recentlyplayedSong) =>
-              setCurrentTrack(recentlyplayedSong.data.items[0].track),
-            )
-        } else setCurrentTrack(playingSong.data.item)
-      })
   }, [])
 
-  const playTrack = (tracks: Array<string | undefined>) => {
-    if (!deviceId) return
-    axios.put(
-      `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`,
-      {
-        uris: tracks,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      },
+  const playTrack = (uris?: string[]) => {
+    SpotifyApi.play({
+      device_id: deviceId,
+      uris: uris,
+      position_ms: trackProgress ? trackProgress : undefined,
+    }).then(
+      () => fetchCurrentPlayBackState(),
+      (err) => console.log(err),
     )
   }
 
-  const toggleTrack = (trackUri: string) => {}
+  const togglePause = () => {
+    SpotifyApi.pause().then(
+      () => {
+        console.log("Playback paused")
+        fetchCurrentPlayBackState()
+      },
+      (err) => console.log(err),
+    )
+  }
+
+  const fetchCurrentPlayBackState = () => {
+    SpotifyApi.getMyCurrentPlaybackState().then(
+      (data) => {
+        setTrackProgress(data.body.progress_ms)
+        console.log(data.body)
+      },
+      (err) => console.log(err),
+    )
+  }
 
   return {
     deviceId,
-    player,
-    playerState,
-    currentTrack,
     playTrack,
+    togglePause,
+    fetchCurrentPlayBackState,
   }
 }

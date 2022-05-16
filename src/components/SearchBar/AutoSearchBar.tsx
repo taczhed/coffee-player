@@ -111,18 +111,15 @@ const AutoSearchBar = ({ SpotifyApi }: AutoSearchBarProps) => {
               },
             }}
           >
-            {searchResults.map((result, index) => {
-              console.log(result)
-              return (
-                <AutoSearchBarItem
-                  key={index}
-                  title={result.title}
-                  uri={result.uri}
-                  artists={smashArtists(result.artists)}
-                  imgSrc={result.albumUrl}
-                />
-              )
-            })}
+            {searchResults.map((result, index) => (
+              <AutoSearchBarItem
+                key={index}
+                title={result.title}
+                uri={result.uri}
+                artists={smashArtists(result.artists)}
+                imgSrc={result.albumUrl}
+              />
+            ))}
           </Stack>
         ) : null}
       </Box>

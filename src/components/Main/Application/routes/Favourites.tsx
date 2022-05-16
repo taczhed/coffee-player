@@ -1,8 +1,8 @@
 import { Box, Pagination, Stack } from "@mui/material"
 import { useEffect, useState } from "react"
+import { useCookies } from "react-cookie"
 import SpotifyWebApi from "spotify-web-api-node"
 import useSpotifyContent from "../../../../hooks/useSpotifyContent"
-import { useAppSelector } from "../../../../store/hooks"
 import RouteHeader from "../../../RouteHeader"
 import TrackList from "../../../TrackList"
 
@@ -11,8 +11,8 @@ interface FavouritesProps {
 }
 
 const Favourites = ({ SpotifyApi }: FavouritesProps) => {
-  const accessToken = useAppSelector((state) => state.accessToken.value)
-  const { fetchSavedSongs } = useSpotifyContent(accessToken, SpotifyApi)
+  const [cookies] = useCookies()
+  const { fetchSavedSongs } = useSpotifyContent(cookies.accessToken, SpotifyApi)
   const [totalNumberOfTracks, setTotalNumberOfTracks] = useState(0)
   const [pageNumber, setPageNumber] = useState(1)
   const [favouriteTracks, setFavouriteTracks] = useState<Array<any>>([])

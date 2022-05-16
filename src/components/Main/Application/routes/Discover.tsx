@@ -24,11 +24,11 @@ const Discover = ({ SpotifyApi }: DiscoverProps) => {
   }, [])
 
   const toggleRecommendation = async (type: string) => {
+    setRecommendedTracks([])
     if (type === "Your favourite Artists")
       setRecommendedTracks(await fetchRecommendations("artists"))
     else if (type === "Recently played tracks")
       setRecommendedTracks(await fetchRecommendations("tracks"))
-    else setRecommendedTracks([])
   }
 
   return (

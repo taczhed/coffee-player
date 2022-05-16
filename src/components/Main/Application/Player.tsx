@@ -15,21 +15,16 @@ interface PlayerProps {
 }
 
 const Player = ({ SpotifyApi }: PlayerProps) => {
-  const currentTrack = useAppSelector((state) => state.currentSong.value)
-  const [cookies] = useCookies()
+  const currentTrack = useAppSelector((state) => state.currentTrack.value)
   const [isResume, setIsResume] = useState(true)
   const [isPaused, setIsPaused] = useState(true)
-  const { deviceId, player, playerState, playTrack } = useSpotifyPlayer(
-    cookies.accessToken,
-  )
+  const { playTrack, togglePause, fetchCurrentPlayBackState } =
+    useSpotifyPlayer(SpotifyApi)
 
   useEffect(() => {
-    // playSong([currentSong ? currentSong : "invalid_song"])
-    // setIsPaused(false)
-    // setIsResume(true)
-    // setIsPaused(true)
-    // player?.togglePlay()
-    // console.log(currentTrack)
+    setIsPaused(false)
+    setIsResume(true)
+    playTrack([currentTrack?.uri])
   }, [currentTrack])
 
   useEffect(() => {
@@ -99,11 +94,14 @@ const Player = ({ SpotifyApi }: PlayerProps) => {
         <Button
           onClick={() => {
             setIsPaused((prev) => !prev)
-
             if (isResume) {
               playTrack([currentTrack?.uri])
               setIsResume(false)
-            } else player?.togglePlay()
+            } else if (isPaused) playTrack()
+            else {
+              fetchCurrentPlayBackState()
+              togglePause()
+            }
           }}
         >
           {isPaused ? (
@@ -122,10 +120,9 @@ const Player = ({ SpotifyApi }: PlayerProps) => {
       <Slider
         aria-label="time-indicator"
         size="small"
-        // value={playerState?.position}
         min={0}
         step={1}
-        max={playerState?.duration}
+        // max={playerState?.duration}
         // onChange={(_, value) => setPosition(value as number)}
         sx={{
           color: "white",

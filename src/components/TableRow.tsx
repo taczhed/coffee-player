@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material"
 import PlayArrowIcon from "@mui/icons-material/PlayArrow"
 import EqualizerIcon from "@mui/icons-material/Equalizer"
 import { useAppDispatch, useAppSelector } from "../store/hooks"
-import { handleCurrentSong } from "../store/currentSongSlice"
+import { handleCurrentTrack } from "../store/currentTrackSlice"
 
 interface TableRowProps {
   track: any
@@ -10,7 +10,7 @@ interface TableRowProps {
 
 const TableRow = ({ track }: TableRowProps) => {
   const dispatch = useAppDispatch()
-  const currentSong = useAppSelector((state) => state.currentSong.value)
+  const currentSong = useAppSelector((state) => state.currentTrack.value)
   return (
     <Box
       sx={{
@@ -41,7 +41,7 @@ const TableRow = ({ track }: TableRowProps) => {
             transform: "rotate(20deg)",
           },
         }}
-        onClick={() => dispatch(handleCurrentSong(track))}
+        onClick={() => dispatch(handleCurrentTrack(track))}
       >
         {track === currentSong ? <EqualizerIcon /> : <PlayArrowIcon />}
       </Box>

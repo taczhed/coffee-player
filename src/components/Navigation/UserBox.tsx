@@ -1,19 +1,20 @@
-import { Logout } from "@mui/icons-material"
 import { Avatar, Box, Button } from "@mui/material"
-import axios from "axios"
 import { useCookies } from "react-cookie"
-import { useHistory } from "react-router-dom"
 
 interface UserBoxProps {
   userData: SpotifyApi.CurrentUsersProfileResponse | undefined
 }
 
 const UserBox = ({ userData }: UserBoxProps) => {
-  //   const history = useHistory()
   const [cookies, setCookie, removeCookie] = useCookies()
 
   const logout = () => {
-    axios.post("https://www.spotify.com/logout/")
+    const spotifyLogoutWindow = window.open(
+      "https://www.spotify.com/logout/",
+      "Spotify Logout",
+      "width=700,height=500,top=40,left=40",
+    )
+    setTimeout(() => spotifyLogoutWindow?.close(), 4000)
     removeCookie("accessToken")
     removeCookie("refreshToken")
     window.location.reload()
